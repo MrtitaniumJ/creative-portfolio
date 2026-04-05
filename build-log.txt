@@ -1,0 +1,22 @@
+
+> portfolio-website@0.1.0 build
+> next build
+
+Γû▓ Next.js 16.2.1 (Turbopack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 18.0s
+  Running TypeScript ...
+Failed to type check.
+
+./src/components/3d/HeroInteractiveBackground.tsx:78:13
+Type error: 'instanced.current' is possibly 'null'.
+
+  76 |             dummy.scale.set(s, s, s);
+  77 |             dummy.updateMatrix();
+> 78 |             instanced.current.setMatrixAt(i++, dummy.matrix);
+     |             ^
+  79 |         });
+  80 |         instanced.current.instanceMatrix.needsUpdate = true;
+  81 |         
+Next.js build worker exited with code: 1 and signal: null
