@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className="relative">
       <body className={`${inter.variable} ${notoSerif.variable} antialiased min-h-screen relative font-sans text-foreground selection:bg-violet-200 selection:text-violet-900`}>
         <div className="noise-overlay" />
         <SmoothScroll>

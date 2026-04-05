@@ -68,39 +68,36 @@ export default function Hero() {
       id="hero"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      // Engineering Standard: Strict viewport bound
-      // Enforce EXACT h-[100dvh] preventing layout shifts and scrolling below fold
-      className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-[#fcfcfc] selection:bg-violet-200"
+      className="relative flex min-h-dvh w-full flex-col overflow-x-hidden bg-[#fcfcfc] selection:bg-violet-200"
     >
       {reducedMotion ? <StaticHeroBackdrop /> : <HeroInteractiveBackground mouseRef={mouseRef} />}
 
-      {/* Main Content Layout: Asymmetrical Bottom-Left alignment */}
-      {/* Engineering Standard: Responsive padding (vh based) dynamically shrinks on smaller screens so content never overflows the 100dvh container */}
-      <div className="relative z-10 container mx-auto flex h-full w-full flex-col justify-end px-6 pb-[10vh] md:px-12 md:pb-[12vh] lg:px-20 lg:pb-[15vh]">
+      <div className="relative z-10 container mx-auto flex min-h-dvh w-full flex-col justify-end px-6 pb-[10vh] md:px-12 md:pb-[12vh] lg:px-20 lg:pb-[15vh]">
         
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           style={{ x: contentX, y: contentY }}
-          className="pointer-events-none relative max-w-5xl"
+          className="pointer-events-none relative z-20 max-w-5xl"
         >
-           {/* Top Title */}
            <motion.p
-             initial={{ opacity: 0, x: -20 }}
+             initial={{ opacity: 0, x: -12 }}
              animate={{ opacity: 1, x: 0 }}
-             transition={{ duration: 1, delay: 0.3 }}
-             className="mb-6 font-mono text-sm uppercase tracking-[0.3em] text-slate-500 md:mb-8 md:text-base"
+             transition={{ duration: 0.85, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+             className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-slate-600 md:mb-5 md:text-sm md:tracking-[0.32em]"
            >
              Full-Stack Developer / Creative Engineer
            </motion.p>
 
-           {/* Massive Asymmetrical Typography */}
-           <h1 className="flex flex-col font-serif leading-[0.85] tracking-tighter mix-blend-multiply">
-             <span className="block text-[clamp(4.5rem,14vw,12rem)] font-black text-slate-900 drop-shadow-sm">
+           {/* Massive Asymmetrical Typography — overline is on the first line so it moves with the name */}
+           <h1 className="flex flex-col font-serif leading-[0.85] tracking-tighter">
+             <span
+               className="relative isolate block text-[clamp(4.5rem,14vw,12rem)] font-black text-slate-900 drop-shadow-sm before:pointer-events-none before:absolute before:-top-3 before:left-0 before:z-10 before:h-[3px] before:w-16 before:rounded-full before:bg-linear-to-r before:from-violet-600 before:via-fuchsia-500 before:to-violet-400 before:shadow-[0_0_24px_rgba(124,58,237,0.55),0_0_48px_rgba(168,85,247,0.2)] before:content-[''] md:before:-top-4 md:before:w-24 md:before:h-[3.5px]"
+             >
                 JATIN
              </span>
-             <span className="relative block text-[clamp(4.5rem,14vw,12rem)] font-black italic text-transparent [-webkit-text-stroke:1.5px_rgba(15,23,42,0.5)] md:[-webkit-text-stroke:2px_rgba(15,23,42,0.4)] ml-[4vw] md:ml-[8vw]">
+             <span className="relative block text-[clamp(4.5rem,14vw,12rem)] font-black italic text-transparent mix-blend-multiply [-webkit-text-stroke:1.5px_rgba(15,23,42,0.5)] md:[-webkit-text-stroke:2px_rgba(15,23,42,0.4)] ml-[4vw] md:ml-[8vw]">
                 SHARMA
              </span>
            </h1>

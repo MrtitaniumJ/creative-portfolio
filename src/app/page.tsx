@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <ScrollProgressProvider>
       <ScrollProgressBar />
-      <main className="relative flex min-h-screen w-full flex-col overflow-hidden bg-transparent pb-28 md:pb-32">
+      <main className="relative flex min-h-screen w-full flex-col overflow-x-hidden bg-transparent pb-28 md:pb-32">
         <Hero />
         <AboutMe />
         <Experience />
