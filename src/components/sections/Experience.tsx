@@ -1,13 +1,45 @@
 "use client";
+
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import TimelineCard from "./TimelineCard";
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
+const rowVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.11, delayChildren: 0.04 },
+  },
+};
+
+const rise = {
+  hidden: { opacity: 0, y: 22 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.72, ease },
+  },
+};
+
+const cardListVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.13, delayChildren: 0.08 },
+  },
+};
 
 const experiences = [
   {
     role: "Software Developer",
     company: "Persist Ventures",
-    date: "Aug 2024 - Present",
+    date: "Aug 2024 — Present",
     location: "Remote",
     description:
       "Built and scaled the Devs Career Accelerator platform supporting 10k+ developers. Developed AI-driven automation workflows with LLM integration for resume enhancement and job applications.",
@@ -21,7 +53,7 @@ const experiences = [
   {
     role: "Full Stack Developer Intern",
     company: "IGOKO Avionics Pvt Ltd",
-    date: "June 2023 - July 2023",
+    date: "June 2023 — July 2023",
     location: "New Delhi, India",
     description:
       "Developed features for B2B/B2G applications using React and Django. Implemented RBAC and protected API flows for restricted modules, ensuring production-ready code.",
@@ -32,84 +64,131 @@ const experiences = [
       "Collaboration across product and compliance constraints",
     ],
   },
-];
-
+] as const;
 
 export default function Experience() {
-  const containerRef = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion() ?? false;
+  const timelineRef = useRef<HTMLDivElement>(null);
+
   const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end end"],
+    target: timelineRef,
+    offset: ["start end", "end end"],
   });
 
-  const lineHeight = useTransform(scrollYProgress, [0, 0.55], ["0%", "100%"]);
-  const ribbonRotate = useTransform(scrollYProgress, [0, 0.5, 1], [6, 0, -4]);
-  const ribbonGlow = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+  const progress = useSpring(scrollYProgress, {
+    stiffness: reducedMotion ? 520 : 72,
+    damping: reducedMotion ? 48 : 18,
+    mass: 0.08,
+    restDelta: 0.0004,
+  });
+
+  const fillScaleY = useTransform(progress, (p) => Math.min(1, Math.max(0, p)));
 
   return (
     <section
       id="experience"
-      ref={containerRef}
-      className="relative z-10 -mt-20 w-full scroll-mt-4 overflow-hidden bg-background pt-12 pb-16 md:-mt-24 md:pt-14 md:pb-20"
+      className="relative z-10 -mt-16 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background pb-24 pt-20 text-foreground md:-mt-20 md:pb-32 md:pt-24"
     >
-      {/* Background Ambient Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-200/30 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-200/30 rounded-full blur-[120px]" />
-      </div>
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at center, rgb(148 163 184 / 0.12) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute right-[-10%] top-[20%] h-[min(50vw,360px)] w-[min(50vw,360px)] rounded-full bg-violet-200/18 blur-[100px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute bottom-[10%] left-[-15%] h-[min(45vw,300px)] w-[min(45vw,300px)] rounded-full bg-fuchsia-200/15 blur-[95px]"
+        aria-hidden
+      />
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+      <motion.div
+        className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12"
+        variants={rowVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.12 }}
+      >
+        <div className="max-w-3xl">
+          <motion.p
+            variants={rise}
+            className="mb-2 font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px]"
           >
-            <span className="text-violet-600 font-sans font-semibold tracking-[0.3em] uppercase text-sm md:text-base px-4 py-2 rounded-full border border-violet-300 bg-violet-100 inline-block mb-6">
-              My Journey
-            </span>
-            <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight drop-shadow-sm">
-              Professional Timeline
-            </h2>
-            <p className="text-slate-600 text-lg mt-6 max-w-2xl mx-auto">
-              A visual journey through my professional evolution and growth in software engineering
-            </p>
-          </motion.div>
-        </div>
+            03 — Experience
+          </motion.p>
 
-        {/* Timeline Container */}
-        <div className="relative mx-auto mb-12 max-w-5xl md:mb-16">
-          {/* Scroll-scrubbed ribbon (decorative, low contrast) */}
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute left-3 top-0 hidden h-full w-16 overflow-visible md:left-1/2 md:block md:-translate-x-[2.25rem]"
-            style={{ opacity: ribbonGlow }}
-          >
+          {reducedMotion ? (
+            <div className="mb-5 h-0.5 w-16 rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 lg:mb-6 lg:w-20" />
+          ) : (
             <motion.div
-              className="absolute left-1/2 top-[8%] h-[84%] w-3 -translate-x-1/2 rounded-full bg-gradient-to-b from-fuchsia-500/35 via-violet-500/45 to-indigo-500/25 blur-[2px]"
-              style={{ rotate: ribbonRotate }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.65, ease, delay: 0.1 }}
+              className="mb-5 h-0.5 w-16 origin-left rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 lg:mb-6 lg:w-20"
             />
-          </motion.div>
+          )}
 
-          {/* Static Background Line */}
-          <div className="absolute bottom-0 left-6 top-0 w-1 rounded-full bg-gray-300 md:left-1/2 md:w-0.5 md:-translate-x-px" />
+          <motion.h2
+            variants={rise}
+            className="font-serif text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.1] tracking-tight text-slate-900"
+          >
+            Where I&apos;ve{" "}
+            <span className="bg-linear-to-r from-violet-600 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
+              shipped real work.
+            </span>
+          </motion.h2>
 
-          {/* Animated Progress Line */}
-          <motion.div
-            className="absolute left-6 top-0 z-10 w-1 origin-top rounded-full bg-gradient-to-b from-violet-600 via-violet-500 to-transparent shadow-[0_0_20px_rgba(139,92,246,0.4)] md:left-1/2 md:w-0.5 md:-translate-x-px"
-            style={{ height: lineHeight }}
-          />
-
-          {/* Experiences */}
-          <div className="space-y-14 md:space-y-20">
-            {experiences.map((exp, idx) => (
-              <TimelineCard key={idx} exp={exp} idx={idx} />
-            ))}
-          </div>
+          <motion.p
+            variants={rise}
+            className="mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-slate-600 lg:mt-6 lg:text-[0.96875rem] lg:leading-[1.65]"
+          >
+            Roles that pushed scope, ownership, and production discipline—not slideware.
+          </motion.p>
         </div>
-      </div>
+
+        <div
+          ref={timelineRef}
+          className="relative mx-auto mt-14 flex max-w-3xl flex-row items-stretch gap-6 overflow-visible md:mt-16 md:gap-8"
+        >
+          <div className="relative flex w-5 shrink-0 justify-center">
+            <div
+              className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 rounded-full bg-slate-200/90"
+              aria-hidden
+            />
+            {reducedMotion ? (
+              <div
+                className="absolute left-1/2 top-0 h-full w-1 -translate-x-1/2 rounded-full bg-linear-to-b from-violet-600 via-violet-500 to-fuchsia-500 shadow-[0_0_14px_rgba(139,92,246,0.35)]"
+                aria-hidden
+              />
+            ) : (
+              <div
+                className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 overflow-hidden rounded-full"
+                aria-hidden
+              >
+                <motion.div
+                  className="h-full w-full origin-top rounded-full bg-linear-to-b from-violet-600 via-violet-500 to-fuchsia-500 shadow-[0_0_14px_rgba(139,92,246,0.35)] will-change-transform"
+                  style={{ scaleY: fillScaleY }}
+                />
+              </div>
+            )}
+          </div>
+
+          <motion.div
+            variants={cardListVariants}
+            className="flex min-w-0 flex-1 flex-col gap-10 overflow-visible md:gap-12"
+          >
+            {experiences.map((exp) => (
+              <TimelineCard key={exp.company} exp={exp} />
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 }

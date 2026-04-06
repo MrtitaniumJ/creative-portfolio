@@ -1,109 +1,171 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
+const rowVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.12, delayChildren: 0.04 },
+  },
+};
+
+const rise = {
+  hidden: { opacity: 0, y: 22 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.72, ease },
+  },
+};
+
+const focusAreas = [
+  "Type-safe stacks",
+  "APIs & data models",
+  "Perf & accessibility",
+  "LLMs · motion · 3D",
+] as const;
+
 export default function AboutMe() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  const op1 = useTransform(scrollYProgress, [0, 0.11, 0.18, 0.28], [0, 1, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.11, 0.18, 0.28], [36, 0, 0, -32]);
-
-  const op2 = useTransform(scrollYProgress, [0.28, 0.36, 0.45, 0.54], [0, 1, 1, 0]);
-  const y2 = useTransform(scrollYProgress, [0.28, 0.36, 0.45, 0.54], [36, 0, 0, -32]);
-
-  // Keep last beat on screen until section ends — avoids a long “empty” sticky tail.
-  const op3 = useTransform(scrollYProgress, [0.54, 0.62, 0.7, 1], [0, 1, 1, 1]);
-  const y3 = useTransform(scrollYProgress, [0.54, 0.62, 0.7, 1], [36, 0, 0, 0]);
-
-  const imageScale = useTransform(scrollYProgress, [0, 0.48, 1], [0.92, 1, 1.03]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.06, 0.85, 1], [0.9, 1, 1, 0.98]);
+  const reducedMotion = useReducedMotion() ?? false;
 
   return (
     <section
-      ref={containerRef}
       id="about"
-      className="relative w-full scroll-mt-4 bg-background pb-0 text-foreground"
-      style={{ height: "min(118vh, calc(100vh + 14rem))" }}
+      className="relative w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-[#fcfcfc] via-[#fafafa] to-background py-24 text-foreground md:py-32"
     >
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <div className="absolute left-1/2 top-1/2 h-[min(80vw,520px)] w-[min(80vw,520px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-200/35 blur-[100px] md:h-[560px] md:w-[560px]" />
-        </div>
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.45]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at center, rgb(148 163 184 / 0.14) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -left-[20%] top-[15%] h-[min(55vw,380px)] w-[min(55vw,380px)] rounded-full bg-fuchsia-200/15 blur-[100px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute bottom-0 right-[-15%] h-[min(60vw,440px)] w-[min(60vw,440px)] rounded-full bg-violet-200/20 blur-[110px]"
+        aria-hidden
+      />
 
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-8 px-4 sm:px-6 md:flex-row md:gap-12 lg:gap-14 lg:px-12">
-          <motion.div
-            style={{ scale: imageScale, opacity: imageOpacity }}
-            className="relative h-52 w-52 shrink-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md sm:h-60 sm:w-60 md:h-80 md:w-72 lg:h-[380px] lg:w-[320px]"
-          >
-            <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-tr from-violet-500/5 to-transparent" />
-            <Image
-              src="/images/personal_image.png"
-              alt="Jatin Sharma"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 208px, 320px"
-              priority
-            />
-          </motion.div>
-
-          <div className="relative flex h-[min(52vh,380px)] w-full max-w-xl items-center md:h-[420px] md:max-w-lg">
-            <motion.div
-              style={{ opacity: op1, y: y1 }}
-              className="absolute inset-0 flex flex-col justify-center px-1 sm:px-0"
+      <motion.div
+        className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12"
+        variants={rowVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.18 }}
+      >
+        <div className="grid grid-cols-1 items-start gap-14 lg:grid-cols-12 lg:items-stretch lg:gap-14">
+          <div className="flex min-h-0 flex-col lg:col-span-7 lg:order-1 lg:h-full lg:justify-start lg:py-0">
+            <motion.p
+              variants={rise}
+              className="mb-2 font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:mb-2.5 lg:text-[11px]"
             >
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 sm:text-sm">
-                Who I am
-              </h2>
-              <h3 className="mb-4 font-serif text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
-                The architect behind the code.
-              </h3>
-              <p className="text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg">
-                Full stack engineer focused on turning complex requirements into reliable products—clear
-                APIs, solid data models, and UIs that stay fast under load.
-              </p>
-            </motion.div>
+              02 — About
+            </motion.p>
 
-            <motion.div
-              style={{ opacity: op2, y: y2 }}
-              className="pointer-events-none absolute inset-0 flex flex-col justify-center px-1 sm:px-0"
-            >
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 sm:text-sm">
-                Philosophy
-              </h2>
-              <h3 className="mb-4 font-serif text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
-                Logic meets aesthetics.
-              </h3>
-              <p className="text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg">
-                Code should be maintainable and measurable. I care about architecture, DX, and the details
-                recruiters notice: performance, accessibility, and shipping on time.
-              </p>
-            </motion.div>
+            {reducedMotion ? (
+              <div className="mb-5 h-0.5 w-16 rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 lg:mb-5 lg:w-20" />
+            ) : (
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.65, ease, delay: 0.12 }}
+                className="mb-5 h-0.5 w-16 origin-left rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 lg:mb-5 lg:w-20"
+              />
+            )}
 
-            <motion.div
-              style={{ opacity: op3, y: y3 }}
-              className="pointer-events-none absolute inset-0 flex flex-col justify-center px-1 sm:px-0"
+            <motion.h2
+              variants={rise}
+              className="mb-5 max-w-[24ch] font-serif text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-slate-900 lg:mb-6 xl:text-[clamp(1.9rem,3.6vw,2.85rem)]"
             >
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-violet-600 sm:text-sm">
-                How I work
-              </h2>
-              <h3 className="mb-4 font-serif text-3xl font-bold leading-tight tracking-tight text-gray-900 sm:text-4xl md:text-5xl">
-                Always leveling up.
-              </h3>
-              <p className="text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg">
-                From LLM-powered workflows to interactive 3D on the web, I keep pushing into tools and
-                patterns that make products stand out—without sacrificing stability.
-              </p>
-            </motion.div>
+              I build systems people trust{" "}
+              <span className="block pt-0.5 lg:pt-1">
+                <span className="bg-linear-to-r from-violet-600 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
+                  when nobody&apos;s watching.
+                </span>
+              </span>
+            </motion.h2>
+
+            <motion.blockquote
+              variants={rise}
+              className="mb-5 border-l-4 border-violet-500 pl-4 font-serif text-base italic leading-snug text-slate-700 lg:mb-6 lg:max-w-xl lg:pl-5 lg:text-[1.0625rem] lg:leading-snug"
+            >
+              Complexity is fine. Chaos is not. My job is to trim the noise until the product feels
+              inevitable—not lucky.
+            </motion.blockquote>
+
+            <motion.p
+              variants={rise}
+              className="max-w-xl text-[0.9375rem] leading-[1.62] text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65]"
+            >
+              I’m a full-stack engineer in the unglamorous sense: I’ve argued with PostgreSQL after
+              midnight, untangled APIs when the spec and reality diverged, and chased performance until
+              the interface still felt human. Your data model should match the real world—not just the
+              slide deck.
+            </motion.p>
+
+            <motion.p
+              variants={rise}
+              className="mt-4 max-w-xl text-[0.9375rem] leading-[1.62] text-slate-600 lg:mt-4 lg:text-[0.96875rem] lg:leading-[1.65]"
+            >
+              These days I lean hard into LLM workflows, automation that doesn’t feel robotic, and the
+              occasional Three.js moment when the brand asks for depth. If it ships, scales, and doesn’t
+              embarrass us in production, I want in.
+            </motion.p>
+
+            <motion.p
+              variants={rise}
+              className="mt-4 font-mono text-[11px] text-slate-500 lg:mt-5 lg:text-xs"
+            >
+              India · Remote · English & Hindi
+            </motion.p>
+
+            <motion.ul
+              variants={rise}
+              className="mt-5 flex flex-wrap gap-2 lg:mt-6"
+              aria-label="Focus areas"
+            >
+              {focusAreas.map((label) => (
+                <li key={label}>
+                  <span className="inline-flex items-center rounded-full border border-slate-200/90 bg-white/60 px-3 py-1 text-[10px] font-medium text-slate-800 shadow-sm backdrop-blur-sm lg:px-3.5 lg:py-1.5 lg:text-[11px]">
+                    {label}
+                  </span>
+                </li>
+              ))}
+            </motion.ul>
           </div>
+
+          <motion.div
+            variants={rise}
+            className={`group/about-portrait about-portrait-frame relative mx-auto flex min-h-0 w-full max-w-[300px] flex-col lg:col-span-5 lg:order-2 lg:mx-0 lg:h-full lg:max-w-none ${reducedMotion ? "about-portrait-reduced-motion" : ""}`}
+          >
+            <div
+              className="absolute -inset-3 -z-10 rounded-[1.35rem] bg-linear-to-br from-violet-200/40 via-white/20 to-fuchsia-200/30 blur-xl lg:-inset-4 lg:top-2 lg:bottom-2 lg:rounded-3xl"
+              aria-hidden
+            />
+            <div className="relative mx-auto flex w-full max-w-[300px] min-h-0 flex-1 flex-col lg:mx-0 lg:max-w-none">
+              <div className="relative aspect-4/5 w-full min-h-0 flex-1 overflow-hidden rounded-2xl border border-white/90 bg-slate-100 shadow-[0_28px_60px_-24px_rgba(15,23,42,0.22)] ring-1 ring-slate-900/4 lg:aspect-auto lg:min-h-[420px] lg:h-full">
+                <Image
+                  src="/images/personal_image.png"
+                  alt="Jatin Sharma"
+                  fill
+                  className="about-portrait-img object-cover object-[center_22%] transition-[filter,transform] duration-500 ease-out group-hover/about-portrait:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover/about-portrait:scale-100"
+                  sizes="(max-width: 1024px) 300px, 420px"
+                  priority
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

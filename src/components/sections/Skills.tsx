@@ -1,48 +1,116 @@
 "use client";
 
-import { motion } from "framer-motion";
-import SkillsBento from "@/components/sections/SkillsBento";
+import { motion, useReducedMotion } from "framer-motion";
+import SkillsForceGraph from "@/components/d3/SkillsForceGraph";
+
+const ease = [0.16, 1, 0.3, 1] as const;
+
+const rowVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.11, delayChildren: 0.04 },
+  },
+};
+
+const rise = {
+  hidden: { opacity: 0, y: 22 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.72, ease },
+  },
+};
 
 export default function Skills() {
+  const reducedMotion = useReducedMotion() ?? false;
+
   return (
     <section
       id="skills"
-      className="relative w-full scroll-mt-4 overflow-hidden py-16 md:py-20"
+      className="relative z-10 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background pb-24 pt-20 text-foreground md:pb-32 md:pt-24"
     >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute right-1/4 top-0 h-64 w-64 rounded-full bg-violet-200/30 blur-[90px]" />
-        <div className="absolute bottom-0 left-1/4 h-72 w-72 rounded-full bg-indigo-200/25 blur-[100px]" />
-      </div>
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at center, rgb(148 163 184 / 0.12) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute right-[-8%] top-[18%] h-[min(48vw,340px)] w-[min(48vw,340px)] rounded-full bg-violet-200/16 blur-[100px]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute bottom-[12%] left-[-12%] h-[min(42vw,280px)] w-[min(42vw,280px)] rounded-full bg-fuchsia-200/14 blur-[95px]"
+        aria-hidden
+      />
 
-      <div className="container relative z-10 mx-auto px-6 md:px-12">
-        <div className="mx-auto mb-10 max-w-3xl text-center md:mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65 }}
+      <motion.p
+        className="pointer-events-none absolute left-6 top-[32%] z-0 -translate-y-1/2 select-none font-sans text-[clamp(4.5rem,22vw,14rem)] font-bold uppercase leading-none tracking-tight text-slate-300/[0.07] lg:left-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1, ease }}
+        aria-hidden
+      >
+        Skills
+      </motion.p>
+
+      <motion.div
+        className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12"
+        variants={rowVariants}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.12 }}
+      >
+        <div className="max-w-3xl">
+          <motion.p
+            variants={rise}
+            className="mb-2 font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px]"
           >
-            <span className="mb-3 inline-block rounded-full border border-violet-300 bg-violet-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-violet-700">
-              Stack
+            04 — Skills
+          </motion.p>
+
+          {reducedMotion ? (
+            <div className="mb-5 h-0.5 w-16 rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 lg:mb-6 lg:w-20" />
+          ) : (
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.65, ease, delay: 0.1 }}
+              className="mb-5 h-0.5 w-16 origin-left rounded-full bg-linear-to-r from-violet-600 to-fuchsia-500 lg:mb-6 lg:w-20"
+            />
+          )}
+
+          <motion.h2
+            variants={rise}
+            className="font-serif text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.1] tracking-tight text-slate-900"
+          >
+            A living{" "}
+            <span className="bg-linear-to-r from-violet-600 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
+              tech landscape.
             </span>
-            <h2 className="font-serif text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-              Skills &amp; tools
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-slate-600 md:text-lg">
-              Hover for depth, click a tile for the full list—organized how I actually work across the stack.
-            </p>
-          </motion.div>
+          </motion.h2>
+
+          <motion.p
+            variants={rise}
+            className="mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-slate-600 lg:mt-6 lg:text-[0.96875rem] lg:leading-[1.65]"
+          >
+            Drag any node — links stretch like springs, then settle back. Explore how the stack clusters
+            around the work I ship.
+          </motion.p>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, delay: 0.06 }}
+          variants={rise}
+          className="relative z-10 mt-12 min-w-0 w-full md:mt-14"
         >
-          <SkillsBento />
+          <SkillsForceGraph reduceMotion={reducedMotion} />
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

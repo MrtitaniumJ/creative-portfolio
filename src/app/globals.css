@@ -89,6 +89,16 @@
     @apply bg-white/40 backdrop-blur-xl border border-gray-300 shadow-md;
   }
 
+  /* About portrait: grayscale on fine-pointer hover; touch / coarse stays full color */
+  @media (hover: hover) and (pointer: fine) {
+    .about-portrait-frame:not(.about-portrait-reduced-motion) .about-portrait-img {
+      filter: grayscale(1);
+    }
+    .about-portrait-frame:not(.about-portrait-reduced-motion):hover .about-portrait-img {
+      filter: grayscale(0);
+    }
+  }
+
   /* Premium Noise Overlay */
   .noise-overlay {
     @apply fixed inset-0 pointer-events-none z-[9999];
