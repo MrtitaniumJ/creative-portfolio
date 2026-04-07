@@ -37,31 +37,61 @@ const cardListVariants = {
 
 const experiences = [
   {
+    role: "Co-Founder",
+    company: "Career Accelerator",
+    date: "Mar 2025 — Present",
+    location: "Los Angeles, CA · Remote",
+    description:
+      "Co-building a career platform that walks people from a sharper resume to real applications—automation, scraping, and model-assisted scoring that had to behave when traffic showed up.",
+    tech: ["Next.js", "TypeScript", "Node.js", "PostgreSQL", "Selenium", "LLMs"],
+    highlights: [
+      "Designed resilient discovery and apply flows that could recover when sites changed overnight",
+      "Improved engagement meaningfully by shortening the path from intent to action",
+      "Listened to users weekly, found friction in onboarding, and removed a huge drop-off fast",
+      "Partnered on fundraising storytelling while keeping releases moving",
+    ],
+  },
+  {
     role: "Software Developer",
     company: "Persist Ventures",
     date: "Aug 2024 — Present",
     location: "Remote",
     description:
-      "Built and scaled the Devs Career Accelerator platform supporting 10k+ developers. Developed AI-driven automation workflows with LLM integration for resume enhancement and job applications.",
-    tech: ["Next.js", "Node.js", "PostgreSQL", "AWS", "Gemini AI", "OpenAI"],
+      "Core engineer on a career accelerator used widely by developers and recruiters—resume tools, profile helpers, matching, recommendations, and a browser companion people rely on daily.",
+    tech: ["Next.js", "TypeScript", "Node.js", "Express", "PostgreSQL", "AWS", "JWT"],
     highlights: [
-      "Platform used by 10k+ developers with reliable uptime",
-      "LLM-powered resume and application workflows in production",
-      "Full-stack ownership from schema to UI",
+      "Implemented role-aware auth so seekers, recruiters, and admins stayed in their lanes",
+      "Built model-assisted workflows with structured outputs so feedback stayed consistent",
+      "Ran services on cloud VMs with dependable storage; automated deploys the team trusted",
+      "Invested in tests, logging, and validation so fast shipping did not mean fragile shipping",
+    ],
+  },
+  {
+    role: "President",
+    company: "GLAU CodeChef Chapter — CodeBusters",
+    date: "Jul 2024 — May 2025",
+    location: "Mathura, Uttar Pradesh, India",
+    description:
+      "Led the university programming chapter—contests, workshops, mentorship—focused on making events worth showing up for.",
+    tech: ["Leadership", "Community", "Algorithms", "Mentorship"],
+    highlights: [
+      "Scaled programming events and campus visibility for the chapter",
+      "Mentored members on fundamentals, contests, and problem-solving discipline",
+      "Bridged students, faculty, and external communities for better events",
     ],
   },
   {
     role: "Full Stack Developer Intern",
     company: "IGOKO Avionics Pvt Ltd",
-    date: "June 2023 — July 2023",
+    date: "Jun 2023 — Jul 2023",
     location: "New Delhi, India",
     description:
-      "Developed features for B2B/B2G applications using React and Django. Implemented RBAC and protected API flows for restricted modules, ensuring production-ready code.",
-    tech: ["React.js", "Django", "PostgreSQL", "REST APIs", "RBAC"],
+      "Internship building B2B and government-facing apps—frontend polish, backend routes, and access rules that kept sensitive modules safe.",
+    tech: ["React.js", "Node.js", "Django", "MongoDB", "REST", "RBAC"],
     highlights: [
-      "RBAC and secured APIs for sensitive modules",
-      "React + Django features shipped to production",
-      "Collaboration across product and compliance constraints",
+      "Protected modules with RBAC and safer API flows",
+      "Tightened validation + error handling for dependable responses",
+      "Worked the full SDLC alongside seniors from idea to working product",
     ],
   },
 ] as const;
@@ -117,7 +147,7 @@ export default function Experience() {
         <div className="max-w-3xl">
           <motion.p
             variants={rise}
-            className="mb-2 font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px]"
+            className="type-kicker mb-2"
           >
             03 — Experience
           </motion.p>
@@ -136,19 +166,20 @@ export default function Experience() {
 
           <motion.h2
             variants={rise}
-            className="font-serif text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.1] tracking-tight text-slate-900"
+            className="type-section-title"
           >
-            Where I&apos;ve{" "}
+            What I&apos;ve done{" "}
             <span className="bg-linear-to-r from-violet-600 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
-              shipped real work.
+              so far.
             </span>
           </motion.h2>
 
           <motion.p
             variants={rise}
-            className="mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-slate-600 lg:mt-6 lg:text-[0.96875rem] lg:leading-[1.65]"
+            className="type-body mt-5 max-w-xl lg:mt-6"
           >
-            Roles that pushed scope, ownership, and production discipline—not slideware.
+            Work experience and side quests that shaped how I build—community leadership, startup intensity,
+            and early internships that taught me to listen before I code.
           </motion.p>
         </div>
 

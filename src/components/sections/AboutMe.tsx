@@ -22,10 +22,10 @@ const rise = {
 };
 
 const focusAreas = [
-  "Type-safe stacks",
-  "APIs & data models",
-  "Perf & accessibility",
-  "LLMs · motion · 3D",
+  "Thoughtful UI",
+  "Reliable backends",
+  "Shipping culture",
+  "Mentoring & community",
 ] as const;
 
 export default function AboutMe() {
@@ -65,7 +65,7 @@ export default function AboutMe() {
           <div className="flex min-h-0 flex-col lg:col-span-7 lg:order-1 lg:h-full lg:justify-start lg:py-0">
             <motion.p
               variants={rise}
-              className="mb-2 font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:mb-2.5 lg:text-[11px]"
+              className="type-kicker mb-2 lg:mb-2.5"
             >
               02 — About
             </motion.p>
@@ -84,48 +84,46 @@ export default function AboutMe() {
 
             <motion.h2
               variants={rise}
-              className="mb-5 max-w-[24ch] font-serif text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-tight text-slate-900 lg:mb-6 xl:text-[clamp(1.9rem,3.6vw,2.85rem)]"
+              className="type-section-title-tight mb-5 max-w-[24ch] lg:mb-6"
             >
-              I build systems people trust{" "}
+              Overview —{" "}
               <span className="block pt-0.5 lg:pt-1">
                 <span className="bg-linear-to-r from-violet-600 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
-                  when nobody&apos;s watching.
+                  the human behind the commits.
                 </span>
               </span>
             </motion.h2>
 
             <motion.blockquote
               variants={rise}
-              className="mb-5 border-l-4 border-violet-500 pl-4 font-serif text-base italic leading-snug text-slate-700 lg:mb-6 lg:max-w-xl lg:pl-5 lg:text-[1.0625rem] lg:leading-snug"
+              className="type-lead mb-5 border-l-4 border-violet-500 pl-4 lg:mb-6 lg:max-w-xl lg:pl-5"
             >
-              Complexity is fine. Chaos is not. My job is to trim the noise until the product feels
-              inevitable—not lucky.
+              I am happiest when a screen feels effortless on the outside and honest on the inside—no
+              theatre, just craft you can lean on.
             </motion.blockquote>
 
             <motion.p
               variants={rise}
-              className="max-w-xl text-[0.9375rem] leading-[1.62] text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65]"
+              className="type-body max-w-xl"
             >
-              I’m a full-stack engineer in the unglamorous sense: I’ve argued with PostgreSQL after
-              midnight, untangled APIs when the spec and reality diverged, and chased performance until
-              the interface still felt human. Your data model should match the real world—not just the
-              slide deck.
+              I am experienced taking ideas from sketch to something real people use: layouts that respond,
+              flows that forgive mistakes, and services that fail loudly enough to fix before anyone panics.
             </motion.p>
 
             <motion.p
               variants={rise}
-              className="mt-4 max-w-xl text-[0.9375rem] leading-[1.62] text-slate-600 lg:mt-4 lg:text-[0.96875rem] lg:leading-[1.65]"
+              className="type-body mt-4 max-w-xl lg:mt-4"
             >
-              These days I lean hard into LLM workflows, automation that doesn’t feel robotic, and the
-              occasional Three.js moment when the brand asks for depth. If it ships, scales, and doesn’t
-              embarrass us in production, I want in.
+              I have been proficient at wearing both hats—polishing what users see and tightening what they
+              never should. Lately that has meant career tools at serious scale, plus seasons of mentoring
+              peers who are just discovering how fun this work can be.
             </motion.p>
 
             <motion.p
               variants={rise}
-              className="mt-4 font-mono text-[11px] text-slate-500 lg:mt-5 lg:text-xs"
+              className="type-meta mt-4 lg:mt-5"
             >
-              India · Remote · English & Hindi
+              Based in Bengaluru · CS undergrad at GLA · English & Hindi
             </motion.p>
 
             <motion.ul
@@ -135,7 +133,7 @@ export default function AboutMe() {
             >
               {focusAreas.map((label) => (
                 <li key={label}>
-                  <span className="inline-flex items-center rounded-full border border-slate-200/90 bg-white/60 px-3 py-1 text-[10px] font-medium text-slate-800 shadow-sm backdrop-blur-sm lg:px-3.5 lg:py-1.5 lg:text-[11px]">
+                  <span className="type-pill">
                     {label}
                   </span>
                 </li>

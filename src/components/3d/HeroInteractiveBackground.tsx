@@ -107,18 +107,20 @@ function Scene({ mouseRef }: { mouseRef: HeroMouseRef }) {
 
 export default function HeroInteractiveBackground({ mouseRef }: { mouseRef: HeroMouseRef }) {
   return (
-    <div className="absolute inset-0 z-0 bg-[#fcfcfc]">
+    <div className="absolute inset-0 z-0 max-w-full overflow-hidden bg-[#fcfcfc]">
       <Canvas
+        className="h-full w-full max-w-full touch-none"
         camera={{ position: [0, 1, 10], fov: 60 }}
         gl={{ alpha: false, antialias: true }} 
         dpr={[1, 2]}
+        style={{ maxWidth: "100%", width: "100%", height: "100%" }}
       >
         <Scene mouseRef={mouseRef} />
       </Canvas>
-      {/* High-end vignette to blend the scene's edges to 100% white */}
-      <div 
-        className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_30%,#fcfcfc_100%)]" 
-        aria-hidden 
+      {/* Stronger edge fade on narrow viewports so the grid never reads as horizontal overflow */}
+      <div
+        className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_22%,#fcfcfc_88%)] sm:bg-[radial-gradient(ellipse_at_center,transparent_30%,#fcfcfc_100%)]"
+        aria-hidden
       />
     </div>
   );

@@ -49,14 +49,14 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
         >
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
-              <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-violet-600/90 md:text-xs">
+              <p className="type-timeline-eyebrow">
                 {exp.date}
               </p>
-              <h3 className="mt-2 font-serif text-xl font-bold tracking-tight text-slate-900 transition-colors group-hover:text-violet-700 md:text-2xl">
+              <h3 className="type-card-title mt-2 transition-colors group-hover:text-violet-700">
                 {exp.role}
               </h3>
-              <p className="mt-1 text-base font-medium text-slate-700">{exp.company}</p>
-              <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-500">
+              <p className="type-card-subtitle mt-1">{exp.company}</p>
+              <p className="type-location mt-2 flex items-center gap-1.5">
                 <MapPin className="h-3.5 w-3.5 shrink-0 text-violet-500/80" aria-hidden />
                 {exp.location}
               </p>
@@ -70,7 +70,7 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
             </motion.span>
           </div>
 
-          <p className="mt-5 text-[0.9375rem] leading-relaxed text-slate-600 md:text-[0.96875rem] md:leading-[1.65]">
+          <p className="type-body-relaxed mt-5">
             {exp.description}
           </p>
 
@@ -83,12 +83,12 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
                 transition={{ duration: reduce ? 0.01 : 0.35, ease }}
                 className="overflow-hidden"
               >
-                <p className="mt-5 border-t border-slate-100 pt-4 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-600">
+                <p className="type-section-label mt-5 border-t border-slate-100 pt-4">
                   Impact
                 </p>
                 <ul className="mt-3 space-y-2.5">
                   {exp.highlights.map((h) => (
-                    <li key={h} className="flex gap-2.5 text-sm leading-snug text-slate-600">
+                    <li key={h} className="type-list-item flex gap-2.5">
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-linear-to-br from-violet-500 to-fuchsia-500" />
                       <span>{h}</span>
                     </li>
@@ -102,14 +102,14 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
             {exp.tech.map((tech) => (
               <span
                 key={tech}
-                className="inline-flex items-center rounded-full border border-slate-200/90 bg-white/60 px-3 py-1 text-[10px] font-medium text-slate-800 shadow-sm backdrop-blur-sm lg:px-3.5 lg:text-[11px]"
+                className="type-pill"
               >
                 {tech}
               </span>
             ))}
           </div>
 
-          <span className="mt-4 inline-block text-xs font-medium text-violet-600 underline-offset-4 group-hover:underline">
+          <span className="type-ui-link mt-4 inline-block group-hover:underline">
             {open ? "Show less" : "Impact & details"}
           </span>
         </button>

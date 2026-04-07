@@ -428,7 +428,7 @@ export default function SkillsForceGraph({ reduceMotion }: { reduceMotion: boole
             .attr("text-anchor", "middle")
             .attr("fill", "#ffffff")
             .attr("font-weight", "600")
-            .attr("font-family", "var(--font-sans), system-ui, sans-serif")
+            .attr("font-family", "var(--font-mono), ui-monospace, monospace")
             .attr("letter-spacing", "0.04em")
             .style("font-size", `${fs}px`)
             .style("pointer-events", "none");

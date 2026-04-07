@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Jatin Sharma | Full Stack Software Engineer";
+export const alt = "Jatin Sharma | Full-stack engineer & builder";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -40,7 +40,7 @@ export default function OpenGraphImage() {
             fontWeight: 500,
           }}
         >
-          Full Stack Software Engineer
+          Full-stack engineer · products, mentorship, calm craft
         </div>
         <div
           style={{
@@ -50,7 +50,7 @@ export default function OpenGraphImage() {
             maxWidth: 720,
           }}
         >
-          Scalable SaaS, automation, and premium web experiences.
+          I build things people actually use—from first sketch to the details that survive real traffic.
         </div>
       </div>
     ),

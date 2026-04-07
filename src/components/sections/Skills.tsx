@@ -48,7 +48,7 @@ export default function Skills() {
       />
 
       <motion.p
-        className="pointer-events-none absolute left-6 top-[32%] z-0 -translate-y-1/2 select-none font-sans text-[clamp(4.5rem,22vw,14rem)] font-bold uppercase leading-none tracking-tight text-slate-300/[0.07] lg:left-12"
+        className="type-watermark pointer-events-none absolute left-6 top-[32%] z-0 -translate-y-1/2 lg:left-12"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.2 }}
@@ -68,7 +68,7 @@ export default function Skills() {
         <div className="max-w-3xl">
           <motion.p
             variants={rise}
-            className="mb-2 font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px]"
+            className="type-kicker mb-2"
           >
             04 — Skills
           </motion.p>
@@ -87,20 +87,20 @@ export default function Skills() {
 
           <motion.h2
             variants={rise}
-            className="font-serif text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.1] tracking-tight text-slate-900"
+            className="type-section-title"
           >
-            A living{" "}
+            Tools I reach for{" "}
             <span className="bg-linear-to-r from-violet-600 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
-              tech landscape.
+              most often.
             </span>
           </motion.h2>
 
           <motion.p
             variants={rise}
-            className="mt-5 max-w-xl text-[0.9375rem] leading-relaxed text-slate-600 lg:mt-6 lg:text-[0.96875rem] lg:leading-[1.65]"
+            className="type-body mt-5 max-w-xl lg:mt-6"
           >
-            Drag any node — links stretch like springs, then settle back. Explore how the stack clusters
-            around the work I ship.
+            Drag a bubble and watch the map breathe—it is playful on purpose, but the grouping mirrors how I
+            actually cluster my practice: ship, automate, learn, repeat.
           </motion.p>
         </div>
 

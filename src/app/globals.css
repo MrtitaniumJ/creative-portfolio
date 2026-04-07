@@ -7,8 +7,12 @@
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-accent: var(--font-accent), Georgia, "Times New Roman", serif;
+  /* Same as 943b377: resolves to Noto Serif from `notoSerif.variable` on body */
   --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono), ui-monospace, monospace;
   
   --color-primary: hsl(var(--primary));
   --color-primary-foreground: hsl(var(--primary-foreground));
@@ -79,6 +83,12 @@
   html {
     /* For Lenis smooth scrolling compatibility */
     scrollbar-width: none;
+    /* Clip horizontal overflow on the root — body-only overflow-x misses the scrolling element on
+       many browsers, so stray scrollWidth (e.g. full-bleed rows) can leave scrollLeft > 0 and shift
+       the whole page sideways at the bottom. */
+    overflow-x: clip;
+    /* Reserve space for fixed dock + safe area when jumping to anchors (e.g. #contact) */
+    scroll-padding-bottom: max(7rem, calc(env(safe-area-inset-bottom, 0px) + 5.5rem));
   }
   ::-webkit-scrollbar {
     display: none;
@@ -106,4 +116,127 @@
     opacity: 0.02;
   }
 
+}
+
+/* Semantic typography: one place for section rhythm, cards, and UI copy */
+@layer components {
+  .type-kicker {
+    @apply font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px];
+  }
+
+  .type-hero-kicker {
+    @apply max-w-full font-mono text-[11px] uppercase tracking-[0.35em] text-slate-600 sm:text-xs md:text-sm;
+  }
+
+  .type-section-title {
+    @apply font-display text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900;
+  }
+
+  .type-section-title-tight {
+    @apply font-display text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900 xl:text-[clamp(1.9rem,3.6vw,2.85rem)];
+  }
+
+  .type-display-title {
+    @apply font-display font-bold leading-[1.06] tracking-[-0.03em] text-gray-900 text-[clamp(1.9rem,4.8vw,3.75rem)] md:text-6xl lg:text-7xl;
+  }
+
+  .type-lead {
+    @apply font-accent text-base italic leading-snug text-slate-700 lg:text-[1.0625rem] lg:leading-snug;
+  }
+
+  .type-body {
+    @apply font-sans text-[0.9375rem] leading-[1.62] text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65];
+  }
+
+  .type-body-relaxed {
+    @apply font-sans text-[0.9375rem] leading-relaxed text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65];
+  }
+
+  .type-body-soft {
+    @apply font-sans text-[0.9375rem] font-light leading-relaxed text-slate-700 sm:text-base md:text-[1.1rem];
+  }
+
+  .type-card-title {
+    @apply font-sans text-xl font-bold tracking-tight text-slate-900 md:text-2xl;
+  }
+
+  .type-card-title-sm {
+    @apply font-sans text-base font-bold leading-snug tracking-tight text-slate-900 sm:text-lg md:text-xl;
+  }
+
+  .type-card-body {
+    @apply font-sans text-[0.75rem] leading-relaxed text-slate-600 sm:text-[0.8125rem] sm:leading-relaxed md:text-[0.875rem] md:leading-[1.55];
+  }
+
+  .type-eyebrow-card {
+    @apply font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/90 sm:text-[10px] md:text-[11px];
+  }
+
+  .type-timeline-eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-violet-600/90 md:text-xs;
+  }
+
+  .type-section-label {
+    @apply font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-600;
+  }
+
+  .type-stat-value {
+    @apply font-sans text-sm font-bold text-slate-900 sm:text-base;
+  }
+
+  .type-stat-label {
+    @apply font-sans text-[8px] font-semibold uppercase tracking-wider text-slate-500 sm:text-[9px];
+  }
+
+  .type-meta {
+    @apply font-mono text-[11px] text-slate-500 lg:text-xs;
+  }
+
+  .type-pill {
+    @apply inline-flex items-center rounded-full border border-slate-200/90 bg-white/60 px-3 py-1 font-sans text-[10px] font-medium text-slate-800 shadow-sm backdrop-blur-sm lg:px-3.5 lg:py-1.5 lg:text-[11px];
+  }
+
+  .type-tag {
+    @apply inline-flex items-center rounded-full border border-slate-200/90 bg-white/70 px-1.5 py-0.5 font-sans text-[8px] font-medium text-slate-800 sm:text-[9px];
+  }
+
+  .type-tag-note {
+    @apply self-center font-sans text-[8px] font-medium text-slate-500 sm:text-[9px];
+  }
+
+  .type-watermark {
+    @apply font-display select-none text-[clamp(4.5rem,22vw,14rem)] font-bold uppercase leading-none tracking-[-0.04em] text-slate-300/[0.07];
+  }
+
+  .type-ui-sm {
+    @apply text-sm;
+  }
+
+  .type-ui-button-sm {
+    @apply font-sans text-[10px] font-semibold sm:text-xs;
+  }
+
+  .type-contact-lead {
+    @apply font-sans text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg lg:text-xl;
+  }
+
+  .type-card-subtitle {
+    @apply font-sans text-base font-medium text-slate-700;
+  }
+
+  .type-location {
+    @apply font-sans text-sm text-slate-500;
+  }
+
+  .type-list-item {
+    @apply font-sans text-sm leading-snug text-slate-600;
+  }
+
+  .type-footer-copy {
+    @apply font-sans text-sm font-medium tracking-wider text-slate-500;
+  }
+
+  .type-ui-link {
+    @apply text-xs font-medium text-violet-600 underline-offset-4;
+  }
 }

@@ -241,8 +241,8 @@ export default function SkillsOrbit() {
             <div className="mb-1 text-xs font-bold uppercase tracking-widest text-violet-300">
               {selected.level}
             </div>
-            <h4 className="font-serif text-2xl font-bold">{selected.id}</h4>
-            <p className="mt-2 text-sm leading-relaxed text-slate-300">{selected.blurb}</p>
+            <h4 className="type-card-title text-white">{selected.id}</h4>
+            <p className="type-body-relaxed mt-2 text-slate-300">{selected.blurb}</p>
             <button
               type="button"
               onClick={() => setSelected(null)}
