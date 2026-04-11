@@ -71,16 +71,44 @@
   --radius: 0.75rem;
 }
 
+.dark {
+  --background: 240 6% 7%;
+  --foreground: 0 0% 96%;
+  --card: 240 5% 10%;
+  --card-foreground: 0 0% 96%;
+  --popover: 240 5% 10%;
+  --popover-foreground: 0 0% 96%;
+  --primary: 263 75% 62%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 4% 16%;
+  --secondary-foreground: 0 0% 96%;
+  --muted: 240 4% 18%;
+  --muted-foreground: 240 5% 64%;
+  --accent: 280 65% 58%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 45%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 4% 20%;
+  --input: 240 4% 22%;
+  --ring: 263 75% 62%;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    cursor: none; /* For Custom Cursor */
+  }
+  /* Match CustomCursor: hide system cursor only on mouse + hover, not touch phones. */
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    * {
+      cursor: none;
+    }
   }
   body {
     @apply bg-background text-foreground overflow-x-hidden;
     /* Removed default gradient to allow our cinematic 3D backgrounds and localized gradients to shine */
   }
   html {
+    color-scheme: light;
     /* For Lenis smooth scrolling compatibility */
     scrollbar-width: none;
     /* Clip horizontal overflow on the root — body-only overflow-x misses the scrolling element on
@@ -90,13 +118,16 @@
     /* Reserve space for fixed dock + safe area when jumping to anchors (e.g. #contact) */
     scroll-padding-bottom: max(7rem, calc(env(safe-area-inset-bottom, 0px) + 5.5rem));
   }
+  html.dark {
+    color-scheme: dark;
+  }
   ::-webkit-scrollbar {
     display: none;
   }
   
   /* Glassmorphism Utilities */
   .glass {
-    @apply bg-white/40 backdrop-blur-xl border border-gray-300 shadow-md;
+    @apply bg-white/40 backdrop-blur-xl border border-gray-300 shadow-md dark:bg-white/5 dark:border-white/10 dark:shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)];
   }
 
   /* About portrait: grayscale on fine-pointer hover; touch / coarse stays full color */
@@ -121,91 +152,91 @@
 /* Semantic typography: one place for section rhythm, cards, and UI copy */
 @layer components {
   .type-kicker {
-    @apply font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px];
+    @apply font-mono text-[11px] uppercase tracking-[0.35em] text-violet-600/90 lg:text-[11px] dark:text-violet-400/90;
   }
 
   .type-hero-kicker {
-    @apply max-w-full font-mono text-[11px] uppercase tracking-[0.35em] text-slate-600 sm:text-xs md:text-sm;
+    @apply max-w-full font-mono text-[11px] uppercase tracking-[0.35em] text-slate-600 sm:text-xs md:text-sm dark:text-slate-400;
   }
 
   .type-section-title {
-    @apply font-display text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900;
+    @apply font-display text-[clamp(1.85rem,4vw,2.85rem)] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900 dark:text-slate-50;
   }
 
   .type-section-title-tight {
-    @apply font-display text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900 xl:text-[clamp(1.9rem,3.6vw,2.85rem)];
+    @apply font-display text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.02em] text-slate-900 xl:text-[clamp(1.9rem,3.6vw,2.85rem)] dark:text-slate-50;
   }
 
   .type-display-title {
-    @apply font-display font-bold leading-[1.06] tracking-[-0.03em] text-gray-900 text-[clamp(1.9rem,4.8vw,3.75rem)] md:text-6xl lg:text-7xl;
+    @apply font-display font-bold leading-[1.06] tracking-[-0.03em] text-gray-900 text-[clamp(1.9rem,4.8vw,3.75rem)] md:text-6xl lg:text-7xl dark:text-slate-50;
   }
 
   .type-lead {
-    @apply font-accent text-base italic leading-snug text-slate-700 lg:text-[1.0625rem] lg:leading-snug;
+    @apply font-accent text-base italic leading-snug text-slate-700 lg:text-[1.0625rem] lg:leading-snug dark:text-slate-300;
   }
 
   .type-body {
-    @apply font-sans text-[0.9375rem] leading-[1.62] text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65];
+    @apply font-sans text-[0.9375rem] leading-[1.62] text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65] dark:text-slate-400;
   }
 
   .type-body-relaxed {
-    @apply font-sans text-[0.9375rem] leading-relaxed text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65];
+    @apply font-sans text-[0.9375rem] leading-relaxed text-slate-600 lg:text-[0.96875rem] lg:leading-[1.65] dark:text-slate-400;
   }
 
   .type-body-soft {
-    @apply font-sans text-[0.9375rem] font-light leading-relaxed text-slate-700 sm:text-base md:text-[1.1rem];
+    @apply font-sans text-[0.9375rem] font-light leading-relaxed text-slate-700 sm:text-base md:text-[1.1rem] dark:text-slate-300;
   }
 
   .type-card-title {
-    @apply font-sans text-xl font-bold tracking-tight text-slate-900 md:text-2xl;
+    @apply font-sans text-xl font-bold tracking-tight text-slate-900 md:text-2xl dark:text-slate-50;
   }
 
   .type-card-title-sm {
-    @apply font-sans text-base font-bold leading-snug tracking-tight text-slate-900 sm:text-lg md:text-xl;
+    @apply font-sans text-base font-bold leading-snug tracking-tight text-slate-900 sm:text-lg md:text-xl dark:text-slate-50;
   }
 
   .type-card-body {
-    @apply font-sans text-[0.75rem] leading-relaxed text-slate-600 sm:text-[0.8125rem] sm:leading-relaxed md:text-[0.875rem] md:leading-[1.55];
+    @apply font-sans text-[0.75rem] leading-relaxed text-slate-600 sm:text-[0.8125rem] sm:leading-relaxed md:text-[0.875rem] md:leading-[1.55] dark:text-slate-400;
   }
 
   .type-eyebrow-card {
-    @apply font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/90 sm:text-[10px] md:text-[11px];
+    @apply font-mono text-[9px] uppercase tracking-[0.2em] text-violet-600/90 sm:text-[10px] md:text-[11px] dark:text-violet-400/90;
   }
 
   .type-timeline-eyebrow {
-    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-violet-600/90 md:text-xs;
+    @apply font-mono text-[11px] uppercase tracking-[0.22em] text-violet-600/90 md:text-xs dark:text-violet-400/90;
   }
 
   .type-section-label {
-    @apply font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-600;
+    @apply font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-600 dark:text-violet-400;
   }
 
   .type-stat-value {
-    @apply font-sans text-sm font-bold text-slate-900 sm:text-base;
+    @apply font-sans text-sm font-bold text-slate-900 sm:text-base dark:text-slate-50;
   }
 
   .type-stat-label {
-    @apply font-sans text-[8px] font-semibold uppercase tracking-wider text-slate-500 sm:text-[9px];
+    @apply font-sans text-[8px] font-semibold uppercase tracking-wider text-slate-500 sm:text-[9px] dark:text-slate-500;
   }
 
   .type-meta {
-    @apply font-mono text-[11px] text-slate-500 lg:text-xs;
+    @apply font-mono text-[11px] text-slate-500 lg:text-xs dark:text-slate-400;
   }
 
   .type-pill {
-    @apply inline-flex items-center rounded-full border border-slate-200/90 bg-white/60 px-3 py-1 font-sans text-[10px] font-medium text-slate-800 shadow-sm backdrop-blur-sm lg:px-3.5 lg:py-1.5 lg:text-[11px];
+    @apply inline-flex items-center rounded-full border border-slate-200/90 bg-white/60 px-3 py-1 font-sans text-[10px] font-medium text-slate-800 shadow-sm backdrop-blur-sm lg:px-3.5 lg:py-1.5 lg:text-[11px] dark:border-white/10 dark:bg-white/5 dark:text-slate-200;
   }
 
   .type-tag {
-    @apply inline-flex items-center rounded-full border border-slate-200/90 bg-white/70 px-1.5 py-0.5 font-sans text-[8px] font-medium text-slate-800 sm:text-[9px];
+    @apply inline-flex items-center rounded-full border border-slate-200/90 bg-white/70 px-1.5 py-0.5 font-sans text-[8px] font-medium text-slate-800 sm:text-[9px] dark:border-white/10 dark:bg-white/5 dark:text-slate-200;
   }
 
   .type-tag-note {
-    @apply self-center font-sans text-[8px] font-medium text-slate-500 sm:text-[9px];
+    @apply self-center font-sans text-[8px] font-medium text-slate-500 sm:text-[9px] dark:text-slate-400;
   }
 
   .type-watermark {
-    @apply font-display select-none text-[clamp(4.5rem,22vw,14rem)] font-bold uppercase leading-none tracking-[-0.04em] text-slate-300/[0.07];
+    @apply font-display select-none text-[clamp(4.5rem,22vw,14rem)] font-bold uppercase leading-none tracking-[-0.04em] text-slate-300/[0.07] dark:text-slate-100/[0.06];
   }
 
   .type-ui-sm {
@@ -217,26 +248,26 @@
   }
 
   .type-contact-lead {
-    @apply font-sans text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg lg:text-xl;
+    @apply font-sans text-sm leading-relaxed text-slate-600 sm:text-base md:text-lg lg:text-xl dark:text-slate-400;
   }
 
   .type-card-subtitle {
-    @apply font-sans text-base font-medium text-slate-700;
+    @apply font-sans text-base font-medium text-slate-700 dark:text-slate-300;
   }
 
   .type-location {
-    @apply font-sans text-sm text-slate-500;
+    @apply font-sans text-sm text-slate-500 dark:text-slate-400;
   }
 
   .type-list-item {
-    @apply font-sans text-sm leading-snug text-slate-600;
+    @apply font-sans text-sm leading-snug text-slate-600 dark:text-slate-400;
   }
 
   .type-footer-copy {
-    @apply font-sans text-sm font-medium tracking-wider text-slate-500;
+    @apply font-sans text-sm font-medium tracking-wider text-slate-500 dark:text-slate-400;
   }
 
   .type-ui-link {
-    @apply text-xs font-medium text-violet-600 underline-offset-4;
+    @apply text-xs font-medium text-violet-600 underline-offset-4 dark:text-violet-400;
   }
 }

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
+import { SECTION_Y } from "@/lib/sectionStyles";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -38,8 +39,8 @@ export const projects = [
     longDescription:
       "Voice-friendly mock sessions, saved attempts, and feedback you can iterate on—not a black box score. Auth, persistence, and subscriptions are first-class so the loop feels serious, not toy-like.",
     tech: ["Next.js", "PostgreSQL", "Clerk", "Stripe", "Gemini", "shadcn/ui"],
-    github: "#",
-    live: "http://mocker-ai.vercel.app/",
+    github: "",
+    live: "https://mocker-ai.vercel.app/",
     color: "from-violet-500 to-indigo-500",
     image: "/images/projects/mocker-ai.svg",
     facts: [
@@ -57,7 +58,7 @@ export const projects = [
       "Pair a resume with a job description and get concrete language on gaps, keywords, and next edits—backed by NLP pipelines and APIs that return structured suggestions, not vague praise.",
     tech: ["React.js", "Node.js", "MongoDB", "spaCy", "TensorFlow", "Python"],
     github: "https://github.com/MrtitaniumJ/Smart-Resume-Analyzer",
-    live: "#",
+    live: "",
     color: "from-fuchsia-500 to-purple-500",
     image: "/images/projects/resume-analyzer.svg",
     facts: [
@@ -75,7 +76,7 @@ export const projects = [
       "CRUD that respects validation and predictable server behavior—so operators trust the numbers. Built as a team-friendly MERN baseline you can extend without rewiring the whole app.",
     tech: ["React.js", "Express.js", "MongoDB", "JWT", "Tailwind CSS", "REST"],
     github: "https://github.com/MrtitaniumJ/Inventory-management/",
-    live: "#",
+    live: "",
     color: "from-blue-500 to-cyan-500",
     image: "/images/projects/inventory-manager.svg",
     facts: [
@@ -107,17 +108,17 @@ function ProjectCard({
   index: number;
   compact?: boolean;
 }) {
-  const hasGithub = project.github !== "#";
-  const hasLive = project.live !== "#";
+  const hasGithub = typeof project.github === "string" && project.github.startsWith("http");
+  const hasLive = typeof project.live === "string" && project.live.startsWith("http");
 
   return (
     <article
       id={compact ? undefined : `project-panel-${project.id}`}
-      className={`mx-auto flex h-full w-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_20px_50px_-28px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/3 backdrop-blur-sm ${
+      className={`mx-auto flex h-full w-full flex-col overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_20px_50px_-28px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/3 backdrop-blur-sm dark:border-white/10 dark:bg-zinc-900/90 dark:shadow-[0_20px_50px_-28px_rgba(0,0,0,0.45)] dark:ring-white/5 ${
         compact ? "max-w-none" : "max-w-md sm:max-w-lg md:max-w-xl"
       }`}
     >
-      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-slate-100">
+      <div className="relative aspect-video w-full shrink-0 overflow-hidden bg-slate-100 dark:bg-zinc-800/80">
         <Image
           src={project.image}
           alt={`${project.title} preview`}
@@ -141,30 +142,30 @@ function ProjectCard({
       </div>
 
       <div
-        className={`flex min-h-0 flex-1 flex-col gap-2 border-slate-100 p-3 sm:gap-3 sm:p-4 lg:gap-2 lg:p-3 ${compact ? "lg:gap-2 lg:p-3" : ""}`}
+        className={`flex min-h-0 flex-1 flex-col gap-2 border-slate-100 p-3 sm:gap-3 sm:p-4 lg:gap-2 lg:p-3 dark:border-white/5 ${compact ? "lg:gap-2 lg:p-3" : ""}`}
       >
         <div className="min-w-0">
           <p className="type-eyebrow-card text-[0.65rem] sm:text-xs lg:text-[0.65rem]">{project.subtitle}</p>
           <h3 className="type-card-title-sm mt-1 leading-tight lg:text-base">{project.title}</h3>
-          <p className="mt-1.5 text-xs font-medium leading-snug text-violet-700/90 sm:text-sm lg:line-clamp-2 lg:text-xs">
+          <p className="mt-1.5 text-xs font-medium leading-snug text-violet-700/90 sm:text-sm lg:line-clamp-2 lg:text-xs dark:text-violet-300/90">
             {project.intent}
           </p>
           <p
-            className={`type-card-body mt-1.5 text-pretty text-slate-600 sm:line-clamp-none ${compact ? "line-clamp-3 lg:text-xs lg:leading-relaxed" : "line-clamp-4"}`}
+            className={`type-card-body mt-1.5 text-pretty text-slate-600 sm:line-clamp-none dark:text-slate-400 ${compact ? "line-clamp-3 lg:text-xs lg:leading-relaxed" : "line-clamp-4"}`}
           >
             {project.longDescription}
           </p>
         </div>
 
-        <div className="space-y-2 border-t border-slate-100 pt-2 sm:space-y-3 sm:pt-3 lg:space-y-2 lg:pt-2">
+        <div className="space-y-2 border-t border-slate-100 pt-2 sm:space-y-3 sm:pt-3 lg:space-y-2 lg:pt-2 dark:border-white/5">
           <ul className="space-y-1 sm:space-y-2 lg:space-y-1" aria-label="What this project offers">
             {project.facts.map((f) => (
               <li
                 key={f.label}
                 className="flex gap-1.5 text-[0.65rem] leading-snug sm:text-xs sm:leading-snug lg:text-[0.65rem]"
               >
-                <span className="shrink-0 font-semibold text-slate-500">{f.label}</span>
-                <span className="text-slate-800">{f.value}</span>
+                <span className="shrink-0 font-semibold text-slate-500 dark:text-slate-400">{f.label}</span>
+                <span className="text-slate-800 dark:text-slate-200">{f.value}</span>
               </li>
             ))}
           </ul>
@@ -178,24 +179,24 @@ function ProjectCard({
           </div>
 
           {(hasGithub || hasLive) && (
-            <p className="text-xs text-slate-500 sm:text-sm lg:text-xs">
+            <p className="text-xs text-slate-500 sm:text-sm lg:text-xs dark:text-slate-400">
               {hasGithub && (
                 <a
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-violet-600 underline decoration-violet-300 underline-offset-2 transition hover:text-violet-700"
+                  className="font-medium text-violet-600 underline decoration-violet-300 underline-offset-2 transition hover:text-violet-700 dark:text-violet-400 dark:decoration-violet-500/50 dark:hover:text-violet-300"
                 >
                   View code
                 </a>
               )}
-              {hasGithub && hasLive && <span className="mx-2 text-slate-300">·</span>}
+              {hasGithub && hasLive && <span className="mx-2 text-slate-300 dark:text-slate-600">·</span>}
               {hasLive && (
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-medium text-violet-600 underline decoration-violet-300 underline-offset-2 transition hover:text-violet-700"
+                  className="font-medium text-violet-600 underline decoration-violet-300 underline-offset-2 transition hover:text-violet-700 dark:text-violet-400 dark:decoration-violet-500/50 dark:hover:text-violet-300"
                 >
                   Live site
                 </a>
@@ -378,7 +379,7 @@ function ProjectsCarouselTrack({
               className={
                 (isLg ? offsetLg === i : active === i)
                   ? "h-2.5 w-8 rounded-full bg-linear-to-r from-violet-600 to-fuchsia-600 shadow-sm transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
-                  : "h-2 w-2 rounded-full bg-slate-300 transition-all duration-300 hover:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+                  : "h-2 w-2 rounded-full bg-slate-300 transition-all duration-300 hover:bg-slate-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 dark:bg-slate-600 dark:hover:bg-slate-500"
               }
             />
           ))}
@@ -395,7 +396,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative z-10 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background pb-24 pt-20 text-foreground md:pb-32 md:pt-24"
+      className={`relative z-10 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background text-foreground dark:via-zinc-950/90 ${SECTION_Y}`}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
@@ -467,10 +468,10 @@ export default function Projects() {
               href={GITHUB_REPOS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 rounded-full border border-slate-200/90 bg-white/90 px-5 py-3 text-sm font-semibold text-slate-800 shadow-[0_8px_30px_-12px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 transition hover:border-violet-400/80 hover:bg-violet-50/90 hover:text-violet-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500"
+              className="group inline-flex items-center gap-3 rounded-full border border-slate-200/90 bg-white/90 px-5 py-3 text-sm font-semibold text-slate-800 shadow-[0_8px_30px_-12px_rgba(15,23,42,0.12)] ring-1 ring-slate-900/5 transition hover:border-violet-400/80 hover:bg-violet-50/90 hover:text-violet-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 dark:border-white/10 dark:bg-zinc-900/90 dark:text-slate-100 dark:shadow-[0_8px_30px_-12px_rgba(0,0,0,0.35)] dark:ring-white/10 dark:hover:border-violet-500/50 dark:hover:bg-violet-950/40 dark:hover:text-violet-200"
             >
               <FaGithub
-                className="h-5 w-5 shrink-0 text-slate-700 transition-colors group-hover:text-violet-700"
+                className="h-5 w-5 shrink-0 text-slate-700 transition-colors group-hover:text-violet-700 dark:text-slate-300 dark:group-hover:text-violet-300"
                 aria-hidden
               />
               <span>View all projects on GitHub</span>

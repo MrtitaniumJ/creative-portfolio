@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment
+
+Copy [`.env.example`](./.env.example) to `.env.local` and set **`NEXT_PUBLIC_SITE_URL`** to your deployed origin (no trailing slash), for example `https://your-domain.com`. This drives `metadataBase`, the sitemap, `robots.txt`, and canonical URLs. For local development, `http://localhost:3000` is fine.
+
 ## Getting Started
 
 First, run the development server:

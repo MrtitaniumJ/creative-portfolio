@@ -37,11 +37,11 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
     <motion.article variants={rise} className="relative overflow-visible">
       {/* Center on bar: gap + half line column (w-5 = 1.25rem → axis at 0.625rem); default gap-6, md gap-8 */}
       <span
-        className="absolute -left-8.5 top-7 z-10 h-3 w-3 -translate-x-1/2 rounded-full border-2 border-white bg-violet-600 shadow-[0_0_0_3px_rgba(139,92,246,0.22)] md:-left-10.5 md:top-8 md:h-3.5 md:w-3.5"
+        className="absolute -left-8.5 top-7 z-10 h-3 w-3 -translate-x-1/2 rounded-full border-2 border-white bg-violet-600 shadow-[0_0_0_3px_rgba(139,92,246,0.22)] md:-left-10.5 md:top-8 md:h-3.5 md:w-3.5 dark:border-zinc-950"
         aria-hidden
       />
 
-      <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-sm transition-shadow duration-300 hover:shadow-md md:p-8">
+      <div className="rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-sm transition-shadow duration-300 hover:shadow-md md:p-8 dark:border-white/10 dark:bg-zinc-900/75 dark:hover:shadow-lg dark:hover:shadow-black/20">
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
@@ -52,7 +52,7 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
               <p className="type-timeline-eyebrow">
                 {exp.date}
               </p>
-              <h3 className="type-card-title mt-2 transition-colors group-hover:text-violet-700">
+              <h3 className="type-card-title mt-2 transition-colors group-hover:text-violet-700 dark:group-hover:text-violet-400">
                 {exp.role}
               </h3>
               <p className="type-card-subtitle mt-1">{exp.company}</p>
@@ -64,7 +64,7 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
             <motion.span
               animate={{ rotate: open ? 180 : 0 }}
               transition={{ duration: 0.35, ease }}
-              className="mt-1 shrink-0 rounded-full border border-slate-200/90 bg-white/80 p-1.5 text-slate-500"
+              className="mt-1 shrink-0 rounded-full border border-slate-200/90 bg-white/80 p-1.5 text-slate-500 dark:border-white/10 dark:bg-white/5 dark:text-slate-400"
             >
               <ChevronDown className="h-4 w-4" aria-hidden />
             </motion.span>
@@ -83,7 +83,7 @@ export default function TimelineCard({ exp }: TimelineCardProps) {
                 transition={{ duration: reduce ? 0.01 : 0.35, ease }}
                 className="overflow-hidden"
               >
-                <p className="type-section-label mt-5 border-t border-slate-100 pt-4">
+                <p className="type-section-label mt-5 border-t border-slate-100 pt-4 dark:border-white/10">
                   Impact
                 </p>
                 <ul className="mt-3 space-y-2.5">

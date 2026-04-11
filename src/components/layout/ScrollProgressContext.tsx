@@ -23,7 +23,7 @@ export function ScrollProgressProvider({ children }: { children: ReactNode }) {
 
   return (
     <ScrollProgressContext.Provider value={scrollYProgress}>
-      <div ref={ref} className="relative min-h-screen w-full max-w-full overflow-x-clip">
+      <div ref={ref} className="relative w-full max-w-full overflow-x-clip">
         {children}
       </div>
     </ScrollProgressContext.Provider>

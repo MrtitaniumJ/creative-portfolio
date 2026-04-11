@@ -10,17 +10,47 @@ function useIsClient() {
   );
 }
 
+/**
+ * Custom cursor only when primary input supports hover + fine pointer (mouse/desktop),
+ * and the user has not asked for reduced motion. Aligns with scoped `cursor: none` in globals.css.
+ */
+function useCustomCursorEnabled() {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof window === "undefined") return () => {};
+      const mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const mqPointer = window.matchMedia("(pointer: fine)");
+      const mqHover = window.matchMedia("(hover: hover)");
+      const on = () => onStoreChange();
+      mqMotion.addEventListener("change", on);
+      mqPointer.addEventListener("change", on);
+      mqHover.addEventListener("change", on);
+      return () => {
+        mqMotion.removeEventListener("change", on);
+        mqPointer.removeEventListener("change", on);
+        mqHover.removeEventListener("change", on);
+      };
+    },
+    () => {
+      const fine = window.matchMedia("(pointer: fine)").matches;
+      const canHover = window.matchMedia("(hover: hover)").matches;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      return fine && canHover && !reduced;
+    },
+    () => false
+  );
+}
+
 export default function CustomCursor() {
+  const enabled = useCustomCursorEnabled();
   const [isVisible, setIsVisible] = useState(false);
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Inner dot spring (fast)
   const springConfig = { damping: 25, stiffness: 600, mass: 0.1 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  // Outer ring spring (slow, trailing)
   const ringSpringConfig = { damping: 30, stiffness: 200, mass: 0.5 };
   const ringXSpring = useSpring(cursorX, ringSpringConfig);
   const ringYSpring = useSpring(cursorY, ringSpringConfig);
@@ -28,6 +58,8 @@ export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    if (!enabled) return;
+
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX - 10);
       cursorY.set(e.clientY - 10);
@@ -37,16 +69,16 @@ export default function CustomCursor() {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
-      
+
       const computedCursor = window.getComputedStyle(target).cursor;
       const isInteractable =
         computedCursor === "pointer" ||
         target.tagName.toLowerCase() === "a" ||
         target.tagName.toLowerCase() === "button" ||
-        target.closest('a') !== null ||
-        target.closest('button') !== null ||
-        target.classList.contains('group');
-        
+        target.closest("a") !== null ||
+        target.closest("button") !== null ||
+        target.classList.contains("group");
+
       setIsHovering(isInteractable);
     };
 
@@ -56,15 +88,15 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [cursorX, cursorY, enabled, isVisible]);
 
   const mounted = useIsClient();
-  if (!mounted) return null;
+  if (!mounted || !enabled) return null;
 
   return (
     <>
       <motion.div
-        className={`fixed top-0 left-0 w-5 h-5 rounded-full z-[100] pointer-events-none mix-blend-darken bg-violet-600`}
+        className="pointer-events-none fixed left-0 top-0 z-[100] h-5 w-5 rounded-full bg-violet-600 mix-blend-darken dark:mix-blend-lighten"
         style={{
           translateX: cursorXSpring,
           translateY: cursorYSpring,
@@ -75,9 +107,9 @@ export default function CustomCursor() {
         }}
         transition={{ type: "spring", damping: 15, stiffness: 200, mass: 0.2 }}
       />
-      
+
       <motion.div
-        className={`fixed top-0 left-0 w-10 h-10 -ml-2.5 -mt-2.5 rounded-full z-[99] pointer-events-none border border-violet-400/50 mix-blend-darken`}
+        className="pointer-events-none fixed left-0 top-0 z-[99] -ml-2.5 -mt-2.5 h-10 w-10 rounded-full border border-violet-400/50 mix-blend-darken dark:mix-blend-lighten"
         style={{
           translateX: ringXSpring,
           translateY: ringYSpring,

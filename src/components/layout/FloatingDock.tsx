@@ -38,10 +38,14 @@ export default function FloatingDock() {
   }, []);
 
   useEffect(() => {
-    updateActive();
+    let raf = 0;
+    raf = requestAnimationFrame(() => {
+      updateActive();
+    });
     window.addEventListener("scroll", updateActive, { passive: true });
     window.addEventListener("resize", updateActive, { passive: true });
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("scroll", updateActive);
       window.removeEventListener("resize", updateActive);
     };
@@ -52,7 +56,7 @@ export default function FloatingDock() {
     if (element) {
       element.scrollIntoView({
         behavior: "smooth",
-        block: id === "contact" ? "center" : "start",
+        block: "start",
       });
     }
   };
@@ -62,7 +66,7 @@ export default function FloatingDock() {
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
-      className="fixed bottom-6 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-1.5 overflow-x-auto rounded-full border border-slate-300/90 bg-white/95 px-2.5 py-2 shadow-[0_14px_44px_-10px_rgba(15,23,42,0.22),0_0_0_1px_rgba(15,23,42,0.06)] ring-2 ring-white/80 backdrop-blur-xl md:gap-2 md:px-4 md:py-2.5"
+      className="fixed bottom-6 left-1/2 z-50 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-1.5 overflow-x-auto rounded-full border border-slate-300/90 bg-white/95 px-2.5 py-2 shadow-[0_14px_44px_-10px_rgba(15,23,42,0.22),0_0_0_1px_rgba(15,23,42,0.06)] ring-2 ring-white/80 backdrop-blur-xl md:gap-2 md:px-4 md:py-2.5 dark:border-white/10 dark:bg-zinc-900/90 dark:shadow-[0_14px_44px_-10px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.06)] dark:ring-zinc-800/80"
     >
       {navItems.map((item) => {
         const isActive = item.id === activeId;
@@ -81,10 +85,10 @@ export default function FloatingDock() {
           >
             <item.icon
               className={`h-5 w-5 transition-colors ${
-                isActive ? "text-white" : "text-slate-600 group-hover:text-violet-600"
+                isActive ? "text-white" : "text-slate-600 group-hover:text-violet-600 dark:text-slate-400 dark:group-hover:text-violet-300"
               }`}
             />
-            <span className="pointer-events-none absolute -top-11 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 opacity-0 shadow-md ring-1 ring-slate-900/5 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+            <span className="pointer-events-none absolute -top-11 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-800 opacity-0 shadow-md ring-1 ring-slate-900/5 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 dark:border-white/10 dark:bg-zinc-800 dark:text-slate-100 dark:ring-white/10">
               {item.label}
             </span>
           </button>

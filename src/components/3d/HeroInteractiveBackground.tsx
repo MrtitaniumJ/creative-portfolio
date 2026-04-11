@@ -3,36 +3,50 @@
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useTheme } from "@/components/layout/ThemeProvider";
+import { cn } from "@/lib/utils";
+
+const HERO_BG_LIGHT = "#fcfcfc";
+const HERO_BG_DARK = "#09090b";
 
 export type HeroMouseRef = React.MutableRefObject<{ x: number; y: number }>;
 
-function TopographicGrid({ mouseRef }: { mouseRef: HeroMouseRef }) {
+function TopographicGrid({
+  mouseRef,
+  wireColor,
+  wireOpacity,
+}: {
+  mouseRef: HeroMouseRef;
+  wireColor: string;
+  wireOpacity: number;
+}) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   // Create a memoized terrain plane: 60x60 units, 100x100 segments for high density
-  const { geometry, positions, initialPositions } = useMemo(() => {
+  const { geometry, initialPositions } = useMemo(() => {
     const geo = new THREE.PlaneGeometry(60, 60, 100, 100);
     geo.rotateX(-Math.PI / 2); // Lay it flat across XZ plane
-    
+
     const pos = geo.attributes.position;
     const init = new Float32Array(pos.array.length);
     for (let i = 0; i < pos.array.length; i++) {
-        init[i] = pos.array[i];
+      init[i] = pos.array[i];
     }
-    return { geometry: geo, positions: pos, initialPositions: init };
+    return { geometry: geo, initialPositions: init };
   }, []);
 
   const smoothMouse = useRef({ x: 0, y: 0 });
 
   useFrame((state, delta) => {
+    const positions = geometry.getAttribute("position") as THREE.BufferAttribute;
     const t = state.clock.elapsedTime * 0.3; // Slower, imposing data wave
     const m = mouseRef.current;
-    
+
     // Smooth interpolation for the mouse tracking
     smoothMouse.current.x = THREE.MathUtils.lerp(smoothMouse.current.x, m.x, delta * 4);
     smoothMouse.current.y = THREE.MathUtils.lerp(smoothMouse.current.y, m.y, delta * 4);
 
-    const arr = positions.array;
+    const arr = positions.array as Float32Array;
     for (let i = 0; i < arr.length; i += 3) {
       const vx = initialPositions[i];
       const vz = initialPositions[i + 2];
@@ -82,44 +96,72 @@ function TopographicGrid({ mouseRef }: { mouseRef: HeroMouseRef }) {
 
   return (
     <mesh ref={meshRef} geometry={geometry}>
-      <meshBasicMaterial 
-        color="#8b5cf6" 
-        wireframe={true} 
+      <meshBasicMaterial
+        color={wireColor}
+        wireframe={true}
         transparent={true}
-        opacity={0.3} 
+        opacity={wireOpacity}
       />
     </mesh>
   );
 }
 
-function Scene({ mouseRef }: { mouseRef: HeroMouseRef }) {
+function Scene({
+  mouseRef,
+  background,
+  wireColor,
+  wireOpacity,
+}: {
+  mouseRef: HeroMouseRef;
+  background: string;
+  wireColor: string;
+  wireOpacity: number;
+}) {
   return (
     <>
-      <color attach="background" args={["#fcfcfc"]} />
-      
-      {/* Dense white fog so the grid infinitely disappears into the horizon */}
-      <fogExp2 attach="fog" args={["#fcfcfc", 0.05]} />
+      <color attach="background" args={[background]} />
 
-      <TopographicGrid mouseRef={mouseRef} />
+      {/* Dense fog so the grid infinitely disappears into the horizon */}
+      <fogExp2 attach="fog" args={[background, 0.05]} />
+
+      <TopographicGrid mouseRef={mouseRef} wireColor={wireColor} wireOpacity={wireOpacity} />
     </>
   );
 }
 
 export default function HeroInteractiveBackground({ mouseRef }: { mouseRef: HeroMouseRef }) {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+  const background = isDark ? HERO_BG_DARK : HERO_BG_LIGHT;
+  const wireColor = isDark ? "#a78bfa" : "#8b5cf6";
+  const wireOpacity = isDark ? 0.22 : 0.3;
+
   return (
-    <div className="absolute inset-0 z-0 max-w-full overflow-hidden bg-[#fcfcfc]">
+    <div
+      className={`absolute inset-0 z-0 max-w-full overflow-hidden ${isDark ? "bg-zinc-950" : "bg-[#fcfcfc]"}`}
+    >
       <Canvas
         className="h-full w-full max-w-full touch-none"
         camera={{ position: [0, 1, 10], fov: 60 }}
-        gl={{ alpha: false, antialias: true }} 
+        gl={{ alpha: false, antialias: true }}
         dpr={[1, 2]}
         style={{ maxWidth: "100%", width: "100%", height: "100%" }}
       >
-        <Scene mouseRef={mouseRef} />
+        <Scene
+          mouseRef={mouseRef}
+          background={background}
+          wireColor={wireColor}
+          wireOpacity={wireOpacity}
+        />
       </Canvas>
       {/* Stronger edge fade on narrow viewports so the grid never reads as horizontal overflow */}
       <div
-        className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_22%,#fcfcfc_88%)] sm:bg-[radial-gradient(ellipse_at_center,transparent_30%,#fcfcfc_100%)]"
+        className={cn(
+          "pointer-events-none absolute inset-0 z-10",
+          isDark
+            ? "bg-[radial-gradient(ellipse_at_center,transparent_22%,#09090b_88%)] sm:bg-[radial-gradient(ellipse_at_center,transparent_30%,#09090b_100%)]"
+            : "bg-[radial-gradient(ellipse_at_center,transparent_22%,#fcfcfc_88%)] sm:bg-[radial-gradient(ellipse_at_center,transparent_30%,#fcfcfc_100%)]"
+        )}
         aria-hidden
       />
     </div>

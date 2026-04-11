@@ -1,7 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
-import SkillsForceGraph from "@/components/d3/SkillsForceGraph";
+import { SECTION_Y } from "@/lib/sectionStyles";
+
+const SkillsForceGraph = dynamic(() => import("@/components/d3/SkillsForceGraph"), {
+  ssr: false,
+  loading: () => (
+    <div
+      className="flex min-h-[280px] w-full items-center justify-center rounded-2xl border border-slate-200/60 bg-slate-50/90 text-sm font-medium text-slate-500 md:min-h-[min(70vh,520px)] dark:border-white/10 dark:bg-zinc-900/60 dark:text-slate-400"
+      role="status"
+      aria-live="polite"
+    >
+      Loading skills map…
+    </div>
+  ),
+});
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -27,7 +41,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative z-10 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background pb-24 pt-20 text-foreground md:pb-32 md:pt-24"
+      className={`relative z-10 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background text-foreground dark:via-zinc-950/90 ${SECTION_Y}`}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.35]"

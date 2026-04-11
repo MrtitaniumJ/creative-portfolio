@@ -539,7 +539,7 @@ export default function SkillsForceGraph({ reduceMotion }: { reduceMotion: boole
   return (
     <div
       ref={wrapRef}
-      className="relative mx-auto w-full min-w-0 max-w-5xl touch-manipulation overflow-hidden rounded-xl border border-slate-200/70 bg-linear-to-b from-white/65 via-white/45 to-slate-50/40 px-1.5 py-4 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.18)] backdrop-blur-md sm:rounded-2xl sm:px-4 sm:py-6 md:px-5 md:py-7"
+      className="relative mx-auto w-full min-w-0 max-w-5xl touch-manipulation overflow-hidden rounded-xl border border-slate-200/70 bg-linear-to-b from-white/65 via-white/45 to-slate-50/40 px-1.5 py-4 shadow-[0_20px_50px_-24px_rgba(15,23,42,0.18)] backdrop-blur-md sm:rounded-2xl sm:px-4 sm:py-6 md:px-5 md:py-7 dark:border-white/10 dark:from-zinc-900/92 dark:via-zinc-900/78 dark:to-zinc-950/88 dark:shadow-[0_20px_50px_-24px_rgba(0,0,0,0.45)] dark:ring-1 dark:ring-white/5"
       style={{ touchAction: "pan-y" }}
     />
   );

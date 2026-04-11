@@ -27,7 +27,7 @@ function normalizeHeroPointer(clientX: number, clientY: number, rect: DOMRectRea
 }
 
 function StaticHeroBackdrop() {
-  return <div className="absolute inset-0 z-0 bg-[#fcfcfc]" aria-hidden />;
+  return <div className="absolute inset-0 z-0 bg-[#fcfcfc] dark:bg-zinc-950" aria-hidden />;
 }
 
 export default function Hero() {
@@ -99,7 +99,7 @@ export default function Hero() {
       id="hero"
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
-      className="relative flex min-h-dvh w-full max-w-full flex-col overflow-x-clip bg-[#fcfcfc] selection:bg-violet-200"
+      className="relative flex min-h-dvh w-full max-w-full flex-col overflow-x-clip bg-[#fcfcfc] selection:bg-violet-200 dark:bg-zinc-950 dark:selection:bg-violet-900/45 dark:selection:text-violet-100"
     >
       {reducedMotion ? <StaticHeroBackdrop /> : <HeroInteractiveBackground mouseRef={mouseRef} />}
 
@@ -123,11 +123,11 @@ export default function Hero() {
            {/* Display: ~3rem floor + 9vw keeps “SHARMA” + ml-2 on-screen; old 4.5rem floor overflowed; 2.35rem was too timid on phones. */}
            <h1 className="flex w-full min-w-0 max-w-full flex-col font-serif leading-[0.88] tracking-tighter sm:leading-[0.85]">
              <span
-               className="relative isolate block w-full min-w-0 max-w-full text-[clamp(3rem,calc(9vw+1.5rem),12rem)] font-black text-slate-900 drop-shadow-sm before:pointer-events-none before:absolute before:-top-2.5 before:left-0 before:z-10 before:h-[2.5px] before:w-14 before:rounded-full before:bg-linear-to-r before:from-violet-600 before:via-fuchsia-500 before:to-violet-400 before:shadow-[0_0_24px_rgba(124,58,237,0.55),0_0_48px_rgba(168,85,247,0.2)] before:content-[''] sm:before:-top-3 sm:before:h-[3px] sm:before:w-16 md:before:-top-4 md:before:h-[3.5px] md:before:w-24"
+               className="relative isolate block w-full min-w-0 max-w-full text-[clamp(3rem,calc(9vw+1.5rem),12rem)] font-black text-slate-900 drop-shadow-sm before:pointer-events-none before:absolute before:-top-2.5 before:left-0 before:z-10 before:h-[2.5px] before:w-14 before:rounded-full before:bg-linear-to-r before:from-violet-600 before:via-fuchsia-500 before:to-violet-400 before:shadow-[0_0_24px_rgba(124,58,237,0.55),0_0_48px_rgba(168,85,247,0.2)] before:content-[''] sm:before:-top-3 sm:before:h-[3px] sm:before:w-16 md:before:-top-4 md:before:h-[3.5px] md:before:w-24 dark:text-slate-50"
              >
                 JATIN
              </span>
-             <span className="relative block w-full min-w-0 max-w-full text-[clamp(3rem,calc(9vw+1.5rem),12rem)] font-black italic tracking-tight text-transparent mix-blend-multiply [-webkit-text-stroke:1.25px_rgba(15,23,42,0.5)] sm:tracking-tighter sm:[-webkit-text-stroke:1.5px_rgba(15,23,42,0.5)] md:[-webkit-text-stroke:2px_rgba(15,23,42,0.4)] ml-2 min-[400px]:ml-[3vw] sm:ml-[4vw] md:ml-[8vw]">
+             <span className="relative block w-full min-w-0 max-w-full text-[clamp(3rem,calc(9vw+1.5rem),12rem)] font-black italic tracking-tight text-transparent mix-blend-multiply [-webkit-text-stroke:1.25px_rgba(15,23,42,0.5)] sm:tracking-tighter sm:[-webkit-text-stroke:1.5px_rgba(15,23,42,0.5)] md:[-webkit-text-stroke:2px_rgba(15,23,42,0.4)] ml-2 min-[400px]:ml-[3vw] sm:ml-[4vw] md:ml-[8vw] dark:mix-blend-normal dark:[-webkit-text-stroke:1.25px_rgba(248,250,252,0.45)] sm:dark:[-webkit-text-stroke:1.5px_rgba(248,250,252,0.4)] md:dark:[-webkit-text-stroke:2px_rgba(248,250,252,0.35)]">
                 SHARMA
              </span>
            </h1>
@@ -148,23 +148,23 @@ export default function Hero() {
              <div className="mt-6 flex flex-col items-start gap-5 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-4">
                <a
                  href="#projects"
-                 className="pointer-events-auto inline-flex items-center gap-3 font-semibold uppercase tracking-widest text-slate-900 transition-colors hover:text-violet-600 group"
+                 className="pointer-events-auto inline-flex items-center gap-3 font-semibold uppercase tracking-widest text-slate-900 transition-colors hover:text-violet-600 group dark:text-slate-100 dark:hover:text-violet-400"
                >
                  See my work
-                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 transition-colors group-hover:border-violet-600 group-hover:bg-violet-50">
-                   <MoveDownRight className="h-4 w-4 text-slate-600 transition-colors group-hover:text-violet-600" />
+                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 transition-colors group-hover:border-violet-600 group-hover:bg-violet-50 dark:border-slate-600 dark:group-hover:border-violet-500 dark:group-hover:bg-violet-950/50">
+                   <MoveDownRight className="h-4 w-4 text-slate-600 transition-colors group-hover:text-violet-600 dark:text-slate-400 dark:group-hover:text-violet-400" />
                  </span>
                </a>
                <a
                  href={RESUME_URL}
                  target="_blank"
                  rel="noopener noreferrer"
-                 className="pointer-events-auto inline-flex items-center gap-3 font-semibold uppercase tracking-widest text-slate-900 transition-colors hover:text-violet-600 group"
+                 className="pointer-events-auto inline-flex items-center gap-3 font-semibold uppercase tracking-widest text-slate-900 transition-colors hover:text-violet-600 group dark:text-slate-100 dark:hover:text-violet-400"
                >
                  <span>Résumé (PDF)</span>
                  <span className="sr-only">Opens Google Drive in a new tab; use Drive to download.</span>
-                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 transition-colors group-hover:border-violet-600 group-hover:bg-violet-50">
-                   <ExternalLink className="h-4 w-4 text-slate-600 transition-colors group-hover:text-violet-600" />
+                 <span className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-300 transition-colors group-hover:border-violet-600 group-hover:bg-violet-50 dark:border-slate-600 dark:group-hover:border-violet-500 dark:group-hover:bg-violet-950/50">
+                   <ExternalLink className="h-4 w-4 text-slate-600 transition-colors group-hover:text-violet-600 dark:text-slate-400 dark:group-hover:text-violet-400" />
                  </span>
                </a>
              </div>

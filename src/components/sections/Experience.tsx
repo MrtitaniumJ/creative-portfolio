@@ -9,6 +9,7 @@ import {
   useTransform,
 } from "framer-motion";
 import TimelineCard from "./TimelineCard";
+import { SECTION_Y } from "@/lib/sectionStyles";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -117,7 +118,7 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative z-10 -mt-16 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background pb-24 pt-20 text-foreground md:-mt-20 md:pb-32 md:pt-24"
+      className={`relative z-10 w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-background via-[#fafafa] to-background text-foreground dark:via-zinc-950/90 ${SECTION_Y}`}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
@@ -136,6 +137,17 @@ export default function Experience() {
         className="pointer-events-none absolute bottom-[10%] left-[-15%] h-[min(45vw,300px)] w-[min(45vw,300px)] rounded-full bg-fuchsia-200/15 blur-[95px]"
         aria-hidden
       />
+
+      <motion.p
+        className="type-watermark pointer-events-none absolute left-6 top-[26%] z-0 -translate-y-1/2 lg:left-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1, ease }}
+        aria-hidden
+      >
+        Journey
+      </motion.p>
 
       <motion.div
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12"
@@ -189,7 +201,7 @@ export default function Experience() {
         >
           <div className="relative flex w-5 shrink-0 justify-center">
             <div
-              className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 rounded-full bg-slate-200/90"
+              className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 rounded-full bg-slate-200/90 dark:bg-slate-600/80"
               aria-hidden
             />
             {reducedMotion ? (

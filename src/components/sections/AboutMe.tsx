@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import { SECTION_Y } from "@/lib/sectionStyles";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
@@ -34,7 +35,7 @@ export default function AboutMe() {
   return (
     <section
       id="about"
-      className="relative w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-[#fcfcfc] via-[#fafafa] to-background py-24 text-foreground md:py-32"
+      className={`relative w-full scroll-mt-4 overflow-x-hidden bg-linear-to-b from-[#fcfcfc] via-[#fafafa] to-background text-foreground dark:from-zinc-950 dark:via-zinc-950 ${SECTION_Y}`}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.45]"
@@ -53,6 +54,17 @@ export default function AboutMe() {
         className="pointer-events-none absolute bottom-0 right-[-15%] h-[min(60vw,440px)] w-[min(60vw,440px)] rounded-full bg-violet-200/20 blur-[110px]"
         aria-hidden
       />
+
+      <motion.p
+        className="type-watermark pointer-events-none absolute left-6 top-[30%] z-0 -translate-y-1/2 lg:left-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 1, ease }}
+        aria-hidden
+      >
+        About
+      </motion.p>
 
       <motion.div
         className="relative z-10 mx-auto max-w-6xl px-6 lg:px-12"
@@ -150,7 +162,7 @@ export default function AboutMe() {
               aria-hidden
             />
             <div className="relative mx-auto flex w-full max-w-[300px] min-h-0 flex-1 flex-col lg:mx-0 lg:max-w-none">
-              <div className="relative aspect-4/5 w-full min-h-0 flex-1 overflow-hidden rounded-2xl border border-white/90 bg-slate-100 shadow-[0_28px_60px_-24px_rgba(15,23,42,0.22)] ring-1 ring-slate-900/4 lg:aspect-auto lg:min-h-[420px] lg:h-full">
+              <div className="relative aspect-4/5 w-full min-h-0 flex-1 overflow-hidden rounded-2xl border border-white/90 bg-slate-100 shadow-[0_28px_60px_-24px_rgba(15,23,42,0.22)] ring-1 ring-slate-900/4 lg:aspect-auto lg:min-h-[420px] lg:h-full dark:border-white/10 dark:bg-zinc-800/50 dark:shadow-[0_28px_60px_-24px_rgba(0,0,0,0.4)] dark:ring-white/5">
                 <Image
                   src="/images/personal_image.png"
                   alt="Jatin Sharma"
